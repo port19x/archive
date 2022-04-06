@@ -1,0 +1,15 @@
+[Unit]
+Description=The b kindom kicklistbot
+Wants=systemd-journald.service networking.service
+
+[Service]
+Type=simple
+User=pi
+Environment=PYTHONUNBUFFERED=true
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/python3 /home/pi/kicklistbot.py
+RestartSec=10s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

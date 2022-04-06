@@ -1,0 +1,34 @@
+body {
+        color: #93a1a1;
+        background-color: #002b36;
+	margin: 0;
+}
+header, article, footer{
+	background-color: #073642;
+	padding-top: 1vw;
+	padding-left: 1vw;
+	padding-bottom: 1vw;
+}
+article{
+	background-color: #002b36;
+}
+h1{
+	margin: 0;
+}
+h2 {
+	text-decoration: underline;
+}
+a:link, a:link:active{
+	color: #cb4b16;
+}
+a:visited, a:visited:active{
+	color: #dc322f;
+}
+.footer {
+	margin: 0;
+        padding-left: 1vw;
+        padding-right: 1vw;
+}
+.desc {
+	margin-top: 0;
+}
