@@ -1,0 +1,2280 @@
+#+Title: Programmieren Aufgaben
+#+Author: port19
+#+Email: port19@port19.xyz
+#+Description: A year of java lectures
+#+OPTIONS: num:nil
+
+* DONE [[file:Folien/03_Packages.pdf][03 Packages]]
+<2022-01-10 Mon>
+Aufgabe hinfällig
+Package ist wohl einfach nur ein Parent Ordner mit Namen des Packages
+** DONE Beispiel für packetierte Klasse
+#+begin_src java
+package Cache;
+public class hello {
+    public static void main(String args[]){
+        System.out.println("Hello World!");
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Hello World!
+
+* DONE [[file:Folien/04_Primitive_Datentypen.pdf][04 Primitive Datentypen]]
+<2022-01-17 Mon>
+** DONE Überlauf, Zweierkomplement
+Big brain overflow
+#+begin_src java
+package Cache;
+public class ShortValue {
+    public static void main(String args[]){
+        short wert = 32767;
+        System.out.println(wert);
+        wert++;
+        System.out.println(wert);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 32767
+: -32768
+** DONE Runden (1)
+Big brain typecasts
+#+begin_src java
+package Cache;
+public class Round {
+    public static void main(String args[]){
+        double pi = 3.1415926;
+        double e = 2.7182818;
+
+        int piInt = (pi % 1 < 0.5) ? (int)(pi - pi % 1) : (int)(pi + 1 - pi % 1);
+        int eInt = (e % 1 < 0.5) ? (int)(e - e % 1) : (int)(e + 1 - e % 1);
+
+        System.out.println("Pi ganzzahling: " + piInt);
+        System.out.println("e ganzzahling: " + eInt);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Pi ganzzahling: 3
+: e ganzzahling: 3
+
+* DONE [[file:Folien/05_Operatoren.pdf][05 Operatoren]]
+<2022-01-24 Mon>
+** DONE Inkrement und Dekrement
+#+begin_src java
+package Cache;
+public class IncrementDecrement {
+    public static void main(String[] args) {
+        int i=0;
+        int j=0;
+        j = ++i;
+        int k = j++ + ++i;
+        System.out.println("k: " + k);
+        System.out.println("*: " + j++ + ++i);
+        System.out.println(j++ + ++i);
+        int m = j++ * ++i;
+        System.out.println("m: " + m);
+        int n = --j * --i;
+        System.out.println("n: " + n);
+        System.out.println("i: " + i);
+        System.out.println("j: " + j);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: k: 3
+: *: 23
+: 7
+: m: 20
+: n: 16
+: i: 4
+: j: 4
+
+** DONE Kaufmännisches Runden (2)
+#+begin_src java
+package Cache;
+public class Round {
+    public static void main(String args[]){
+        double pi = 3.1415926;
+        double e = 2.7182818;
+
+        double test = -0.5;
+        int ergebnis = 0;
+        if(test < 0){
+            ergebnis = (test % 1 > -0.5) ? (int)(test - test % 1) : (int)(test + 1 - test % 1);
+            ergebnis = ergebnis * (-1);
+        }
+        else{
+            ergebnis = (test % 1 < 0.5) ? (int)(test - test % 1) : (int)(test + 1 - test % 1);
+        }
+        System.out.println("Test ganzzahling: " + ergebnis);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Test ganzzahling: -1
+
+** DONE Ostertermin berechnen
+#+begin_src java
+package Cache;
+public class Easter {
+    public static void main(String[] args) {
+        int jahr = 2022; //filler weil org nicht interactive
+        int a = jahr % 19;
+        int b = jahr % 4;
+        int c = jahr % 7;
+        int k = jahr / 100;
+        int p = (8*k + 13) / 25;
+        int q = k / 4;
+        int m = (15 + k - p - q) % 30;
+        int n = (4 + k - q) % 7;
+        int d = (19*a + m) % 30;
+        int e = (2*b + 4*c + 6*d + n) % 7;
+        int ostern = (22 + d + e); //Bezogen auf 1.März
+        System.out.println(ostern);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 48
+
+** DONE Vorrang von Operatoren
+#+begin_src java
+package Cache;
+public class Priority {
+    public static void main(String[] args) {
+        System.out.println("1: " + (5 / 2 * 2)); //4 because integer division
+        System.out.println("2: " + (9. / 2 + 5)); //9.5
+        boolean a = true, b = false, c = false;
+        System.out.println("3: " + (a && b || c)); //false either way
+        char ch = 'c';
+        System.out.println("4: " + ('a' + 1 < ch)); //true
+        int i = 1, j = 2, k = 3;
+        System.out.println("5: " + (-i - 5 * j >= k + 1)); //false
+        //no idea what goes first lol. Oh, 6 goes first
+        i = 1;
+        if (a || (++i == 2)) {
+            System.out.println("6: " + i);
+        }
+        i = 1;
+        if (a | (++i == 2)) {
+            System.out.println("7: " + i);
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 1: 4
+: 2: 9.5
+: 3: false
+: 4: true
+: 5: false
+: 6: 1
+: 7: 2
+
+* DONE [[file:Folien/06_Kontrollstrukturen.pdf][06 Kontrollstrukturen]]
+<2022-01-24 Mon>
+** DONE Schaltjahr
+#+begin_src java
+package Cache;
+public class programmieren {
+    public static void main(String[] args) {
+        boolean istSchaltjahr = true;
+        int jahr = 2020;
+        istSchaltjahr = (jahr % 4 == 0);
+        if(istSchaltjahr){
+            istSchaltjahr = !((jahr % 100 == 0) && (jahr % 400 != 0));
+        }
+        String greeting = istSchaltjahr ? " ist ein Schaltjahr" : " ist kein Schaltjahr";
+        System.out.println(jahr + greeting);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 2020 ist ein Schaltjahr
+
+** DONE Temperaturtabelle
+#+begin_src java
+package Cache;
+public class TemperatureTable {
+    public static void main(String[] args) {
+//        for (int f = 0; f <= 300; f++) {
+        for (int f = 0; f <= 10; f++) {
+            double c = (5.0/9)*(f-32);
+            c = c - (c%0.1 + 0.1);
+            System.out.println(f + " | " + c);
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+0 | -17.8
+1 | -17.3
+2 | -16.7
+3 | -16.2
+4 | -15.600000000000001
+5 | -15.0
+6 | -14.5
+7 | -13.9
+8 | -13.4
+9 | -12.8
+10 | -12.3
+#+end_example
+
+** DONE [#A] Wildbestand
+#+begin_src java
+package Cache;
+public class Deers {
+    public static void main(String[] args) {
+        int gen = 0;
+        int deers = 200;
+        double factor = 1.1;
+        int loss = 15;
+        while(deers < 300){
+            gen++;
+            deers = (int)(deers * factor - loss);
+            System.out.println(gen + ": " + deers + " Hirsche");
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+1: 205 Hirsche
+2: 210 Hirsche
+3: 216 Hirsche
+4: 222 Hirsche
+5: 229 Hirsche
+6: 236 Hirsche
+7: 244 Hirsche
+8: 253 Hirsche
+9: 263 Hirsche
+10: 274 Hirsche
+11: 286 Hirsche
+12: 299 Hirsche
+13: 313 Hirsche
+#+end_example
+
+** DONE Einmaleins
+#+begin_src java
+package Cache;
+public class MultiplicationTable {
+    public static void main(String[] args) {
+        int product = 0;
+        String cell = "";
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= 10; j++) {
+                product = i*j;
+                cell = String.format("%4s", product);
+                System.out.print(cell);
+            }
+            System.out.println();
+        }
+
+    }
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+   1   2   3   4   5   6   7   8   9  10
+   2   4   6   8  10  12  14  16  18  20
+   3   6   9  12  15  18  21  24  27  30
+   4   8  12  16  20  24  28  32  36  40
+   5  10  15  20  25  30  35  40  45  50
+   6  12  18  24  30  36  42  48  54  60
+   7  14  21  28  35  42  49  56  63  70
+   8  16  24  32  40  48  56  64  72  80
+   9  18  27  36  45  54  63  72  81  90
+  10  20  30  40  50  60  70  80  90 100
+#+end_example
+** DONE Aufsummieren
+Note: Needs interactivity
+#+begin_src java
+package Cache;
+import java.util.Scanner;
+public class AddUp {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int summe = 0;
+        int input = 0;
+        while (input >= 0){
+            System.out.print("Zahl eingeben (<0 für Abbruch): ");
+            input = scan.nextInt();
+            if(input >= 0){
+                summe += input;
+            }
+        }
+        System.out.println("Summe: " + summe);
+        summe = 0;
+        do{
+            System.out.print("Zahl eingeben (<0 für Abbruch): ");
+            input = scan.nextInt();
+            if(input >= 0){
+                summe += input;
+            }
+        } while (input >= 0);
+        System.out.println("Summe: " + summe);
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** KILL Schuhgrößen
+inaccurate zeugs
+#+begin_src java
+package Cache;
+import java.util.Scanner;
+public class ShoeSize {
+    public static void main(String[] args) {
+        double zentimeterfloor = 19.33;
+        double zentimeterceil = 20.00;
+        int größe = 0;
+        System.out.println("Zentimeter    | Größe");
+        System.out.println("--------------+------");
+        while (größe < 1){
+            größe = (int)(zentimeterceil * 1.5);
+            System.out.println(zentimeterfloor + " - " + zentimeterceil + " | " + größe);
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Zentimeter    | Größe
+: --------------+------
+: 19.33 - 20.0 | 30
+
+** KILL Babylonisches Wurzelziehen (Heronverfahren)
+Unnötig algorithmisch schwer
+** DONE Zahlenraten
+#+begin_src java
+package Cache;
+import java.util.Random;
+import java.util.Scanner;
+public class NumberGuess {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        Random random = new Random();
+        int number = 50;
+        int guess = 0;
+        int tries = 0;
+        String name = "";
+        System.out.println("Wie ist Dein Name? ");
+        name = scan.nextLine();
+
+        boolean continu = true;
+        while(continu){
+            number = random.nextInt(100) + 1;
+            while (guess != number){
+                tries++;
+                System.out.print(name + ", rate eine Zahl [1-100]: ");
+                guess = scan.nextInt();
+                if(guess > number){
+                    System.out.println("Versuch " + tries + ": " + guess + " ist zu hoch.");
+                }
+                else if(guess < number){
+                    System.out.println("Versuch " + tries + ": " + guess + " ist zu niedrig.");
+                }
+            }
+            System.out.println("Versuch " + tries + ": " + guess + " ist korrekt.");
+        System.out.println("Was möchtest Du tun?");
+        System.out.println("0 - Das Spiel beenden");
+        System.out.println("1 - Das Spiel fortsetzen");
+        guess = scan.nextInt();
+        continu = (guess == 0) ? false : true;
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+* DONE [[file:Folien/07_Arrays.pdf][07 Felder]]
+<2022-01-31 Mon>
+** DONE Mittelwert und Standardabweichung
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class StandardDeviation {
+    public static void main(String[] args) {
+        Random random = new Random();
+        int length = 3;
+        double placeholder = 0;
+        double[] vector = new double[length];
+        double summ = 0;
+        for (int i = 0; i < vector.length; i++) {
+            vector[i] = random.nextInt(10) + 1;
+            System.out.println("x_" + i + " = " + vector[i]);
+            summ += vector[i];
+        }
+        double average = summ/length;
+        System.out.println("Average = " + average);
+        double stdev = 0;
+        summ = 0;
+        for (double val : vector){
+            summ += Math.pow((val - average), 2);
+        }
+        stdev = Math.sqrt(summ/(length-1));
+        System.out.println("Stdev = " + stdev);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: x_0 = 6.0
+: x_1 = 2.0
+: x_2 = 8.0
+: Average = 5.333333333333333
+: Stdev = 3.055050463303893
+
+** DONE Fibonacci-Folge
+#+begin_src java
+package Cache;
+public class Fibonacci {
+    public static void main(String[] args) {
+        int fibonacci[] = new int[20];
+        fibonacci[0] = 1;
+        System.out.println(fibonacci[0]);
+        fibonacci[1] = 1;
+        System.out.println(fibonacci[1]);
+        for (int i = 2; i < fibonacci.length; i++) {
+            fibonacci[i] = fibonacci[i-1] + fibonacci[i-2];
+            System.out.println(fibonacci[i]);
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+144
+233
+377
+610
+987
+1597
+2584
+4181
+6765
+#+end_example
+** DONE Betrag eines Vektors
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class Norm {
+    public static void main(String[] args) {
+        Random random = new Random();
+        int length = 3;
+        double sumofsquares = 0;
+        double betrag = 0;
+        double[] vector = new double[length];
+        for (int i = 0; i < vector.length; i++) {
+            vector[i] = random.nextInt(10) + 1;
+            System.out.println("x_" + i + " = " + vector[i]);
+        }
+        for (double val : vector){
+            sumofsquares += val * val;
+        }
+        betrag = Math.sqrt(sumofsquares);
+        System.out.println("Der Betrag von x ist " + betrag);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: x_0 = 2.0
+: x_1 = 9.0
+: x_2 = 6.0
+: Der Betrag von x ist 11.0
+
+** DONE Skalarprodukt zweier Vektoren
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class DotProduct {
+    public static void main(String[] args) {
+        Random random = new Random();
+        int length = 3;
+        double dotproduct = 0.0;
+        double[] vector1 = new double[length];
+        double[] vector2 = new double[length];
+        for (int i = 0; i < vector1.length; i++) {
+            vector1[i] = random.nextInt(10) + 1;
+            vector2[i] = random.nextInt(10) + 1;
+            System.out.println("x_" + i + " = " + vector1[i]);
+            System.out.println("y_" + i + " = " + vector2[i]);
+            dotproduct += vector1[i] * vector2[i];
+        }
+        System.out.println("Das Skalarprodukt von x und y ist " + dotproduct);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: x_0 = 4.0
+: y_0 = 7.0
+: x_1 = 5.0
+: y_1 = 2.0
+: x_2 = 4.0
+: y_2 = 6.0
+: Das Skalarprodukt von x und y ist 62.0
+
+** DONE Sortieren mit Bubblesort
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class Norm {
+    public static void main(String[] args) {
+        Random random = new Random();
+        int length = 4;
+        int[] vector = new int[length];
+        for (int i = 0; i < vector.length; i++) {
+            vector[i] = random.nextInt(10) + 1;
+            System.out.println("x_" + i + " = " + vector[i]);
+        }
+        boolean sorted = false;
+        int placeholder = 0;
+        while (!sorted) {
+            sorted = true;
+            for (int i = 1; i < vector.length; i++) {
+                if(vector[i-1] > vector[i]){
+                    placeholder = vector[i-1];
+                    vector[i-1] = vector[i];
+                    vector[i] = placeholder;
+                    sorted = false;
+                 }
+             }
+        }
+        System.out.print("Sortiert: ");
+        for (int val : vector){
+            System.out.print(val + " ");
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: x_0 = 7
+: x_1 = 4
+: x_2 = 6
+: x_3 = 4
+: Sortiert: 4 4 6 7
+
+** DONE Subtraktion zweier Matritzen
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class MatrixSubtraction{
+    public static void main(String[] args){
+        Random random = new Random();
+        //Assumes y = x. Easily changable
+        int length = 4;
+        int[][] vec_x = new int[length][length];
+        int[][] vec_y = new int[length][length];
+        int[][] vec_z = new int[length][length];
+        for(int i = 0; i < length; i++){
+            for(int j = 0; j < length; j++){
+                vec_x[i][j] = random.nextInt(100);
+                vec_y[i][j] = random.nextInt(100);
+                vec_z[i][j] = vec_x[i][j] - vec_y[i][j];
+            }
+        }
+        //Let's not do any fancy printing...
+        System.out.println(vec_x[0][0]);
+        System.out.println(vec_y[0][0]);
+        System.out.println(vec_z[0][0]);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 70
+: 71
+: -1
+
+** DONE Pascalsches Dreieck
+#+begin_src java
+package Cache;
+public class Pascal{
+    public static void main(String[] args){
+        int placeholder = 0;
+        int[][] pascal = new int[9][];
+        for(int i = 0; i < pascal.length; i++){
+            pascal[i] = new int[i+1];
+        }
+        for(int i = 0; i < pascal.length; i++){
+            pascal[i][0] = 1;
+            for(int j = 1; j < pascal[i].length -1; j++){
+                pascal[i][j] = pascal[i-1][j-1] + pascal[i-1][j];
+            }
+            pascal[i][pascal[i].length-1] = 1;
+        }
+        for(int i = 0; i < pascal.length; i++){
+            for(int j = 0; j < pascal[i].length; j++){
+                System.out.print(pascal[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 1
+: 11
+: 121
+: 1331
+: 14641
+: 15101051
+: 1615201561
+: 172135352171
+: 18285670562881
+
+* DONE [[file:Folien/09_Klassen_und_Objekte.pdf][09 Klassen]]
+<2022-02-07 Mon>
+** DONE Radio
+#+begin_src java
+package Cache;
+public class Radio {
+    boolean on;
+    int volume;
+    double frequency;
+
+    Radio() {
+        this.on = false;
+        this.volume = 0;
+        this.frequency = 85.0;
+    }
+
+    Radio(boolean pon, int pvolume, double pfrequency) {
+        this.on = pon;
+        this.volume = pvolume;
+        this.frequency = pfrequency;
+    }
+
+    void incVolume() {
+        if(volume < 10){
+            volume++;
+        }
+    }
+    void decVolume() {
+        if(volume > 0){
+            volume--;
+        }
+    }
+    void setFrequency(double pfrequency) {
+        if(85.0 <= pfrequency && pfrequency >= 110.0){
+            frequency = pfrequency;
+        }
+    }
+    public String toString() {
+        String info;
+        if(on){
+            info ="Radio an: Freq="+frequency+", Laut="+volume;
+        }
+        else {
+            info = "Radio aus: Freq="+frequency+", Laut="+volume;
+        }
+        return info;
+    }
+
+    public static void main(String[] args) {
+        Radio meinradio = new Radio(true, 8, 89.0);
+        System.out.println(meinradio);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Radio an: Freq=89.0, Laut=8
+
+** DONE Zweidimensionaler Punkt
+#+begin_src java
+package Cache;
+public class Point{
+    private double x;
+    private double y;
+
+    public Point(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX(){
+        return this.x;
+    }
+    public double getY(){
+        return this.y;
+    }
+    public void setX(double x){
+        this.x = x;
+    }
+    public void setY(double y){
+        this.y = y;
+    }
+
+    @Override
+    public String toString(){
+        String a = "";
+        a = "X: " + this.x + ", Y: " + this.y;
+        return a;
+    }
+    public double getOriginDistance(){
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+
+    }
+    public double getDistance(Point p){
+        double px = p.getX();
+        double py = p.getY();
+        return Math.sqrt((this.x - px) * (this.x - px) + (this.y - py) * (this.y - py));
+    }
+    public Point mirrorX(){
+        Point mx = new Point(this.x, -this.y);
+        return mx;
+    }
+    public Point mirrorY(){
+        Point my = new Point(-this.x, this.y);
+        return my;
+    }
+    public Point mirrorOrigin(){
+        Point mo = new Point(-this.x, -this.y);
+        return mo;
+    }
+
+    public static void main(String[] args){
+        Point pointA = new Point(4.0, 2.0);
+        System.out.println("A: " + pointA);
+        Point pointB = new Point(-1.0, -1.0);
+        System.out.println("B: " + pointB);
+        System.out.println("Abstand A-B: " + pointA.getDistance(pointB));
+        pointA = pointA.mirrorOrigin();
+        System.out.println("A': " + pointA);
+        System.out.println("Abstand A'-B: " + pointA.getDistance(pointB));
+    }
+}
+#+end_src
+
+#+RESULTS:
+: A: X: 4.0, Y: 2.0
+: B: X: -1.0, Y: -1.0
+: Abstand A-B: 5.830951894845301
+: A': X: -4.0, Y: -2.0
+: Abstand A'-B: 3.1622776601683795
+
+** DONE Bankkonto
+#+begin_src java
+package Cache;
+public class Account{
+    int kontonummer;
+    String kontoinhaber;
+    int kontostand;
+    int limit;
+
+    public Account(int kn, String ki){
+        this.kontonummer = kn;
+        this.kontoinhaber = ki;
+        this.kontostand = 0;
+        this.limit = 0;
+    }
+    public Account(int kn, String ki, int ko, int li){
+        this.kontonummer = kn;
+        this.kontoinhaber = ki;
+        this.kontostand = ko;
+        this.limit = li;
+    }
+
+    @Override
+    public String toString(){
+        String info = "";
+        info = info + "Konto Nr. " + this.kontonummer;
+        info = info + " (" + this.kontoinhaber;
+        info = info + " ), Stand: " + this.kontostand;
+        info = info + " ct, Limit " + this.limit + " ct";
+        return info;
+    }
+    public void processDeposit(int betrag){
+        if(betrag > 0){
+            this.kontostand += betrag;
+        }
+        else{
+            System.out.println("\033[1;31m" + "Don't try to deposit a negativ number" + "\033[0m");
+        }
+    }
+    public void processPayment(int betrag){
+        if(betrag > 0){
+            if(betrag < (this.kontostand + this.limit)){
+                this.kontostand -= betrag;
+            }
+            else{
+                System.out.println("\033[1;31m" + "Deckung nicht ausreichend!" + "\033[0m");
+            }
+        }
+        else{
+            System.out.println("\033[1;31m" + "Don't try to withdraw a negativ number" + "\033[0m");
+        }
+    }
+    public int getbalance(){
+        return this.kontostand;
+    }
+
+    public static void main(String[] args){
+        Account account = new Account(4711, "Donald Duck", 500, 1000);
+        System.out.println(account);
+        account.processDeposit(200);
+        System.out.println(account);
+        account.processPayment(400);
+        System.out.println(account);
+        account.processPayment(2000);
+        System.out.println(account);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Konto Nr. 4711 (Donald Duck ), Stand: 500 ct, Limit 1000 ct
+: Konto Nr. 4711 (Donald Duck ), Stand: 700 ct, Limit 1000 ct
+: Konto Nr. 4711 (Donald Duck ), Stand: 300 ct, Limit 1000 ct
+: [1;31mDeckung nicht ausreichend![0m
+: Konto Nr. 4711 (Donald Duck ), Stand: 300 ct, Limit 1000 ct
+
+** KILL [#C] Polynom 2. Grades
+polyZero zu schwer
+#+begin_src java
+package Cache;
+public class Polynomial{
+
+    double a, b, c;
+
+    public Polynomial(double a, double b, double c){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+    @Override
+    public String toString(){
+        if(b<0 && c <0){
+            return (this.a + "x^2 " + this.b + "x " + this.c);
+        }
+        else if(b<0){
+            return (this.a + "x^2 " + this.b + "x +" + this.c);
+        }
+        else if(c<0){
+            return (this.a + "x^2 +" + this.b + "x " + this.c);
+        }
+        else{
+            return (this.a + "x^2 +" + this.b + "x +" + this.c);
+        }
+    }
+    public double getY(double x){
+        return this.a * x * x + this.b * x + this.c;
+    }
+    public Polynomial multiply(double x){
+        Polynomial pp = new Polynomial(this.a*x, this.b*x, this.c*x);
+        return pp;
+    }
+    public static Polynomial polyAdd(Polynomial pa, Polynomial pb){
+        Polynomial pp = new Polynomial(pa.a+pb.a, pa.b+pb.b, pa.c+pb.c);
+        return pp;
+    }
+    public double[] polyZero(){
+        double solutions[] = new double [];
+        return ["fuck this is hard"];
+    }
+
+    public static void main(String[] args){
+        Polynomial p1 = new Polynomial(2.0, 0.0, 0.0);
+        System.out.println("P1: " + p1);
+        Polynomial p2 = new Polynomial(0.0, -4.0, 1.0);
+        System.out.println("P2: " + p2);
+        Polynomial p3 = polyAdd(p1, p2);
+        System.out.println("P3 = P1 + P2: " + p3);
+        System.out.println("Nullstellen von P3 (" + p3 + "):");
+    }
+}
+#+end_src
+
+** DONE Komplexe Zahlen
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class Complex{
+    private double a, b;
+
+    public Complex(double real, double imag){
+        this.a = real;
+        this.b = imag;
+    }
+    public double getReal(){
+        return this.a;
+    }
+    public double getImag(){
+        return this.b;
+    }
+    @Override
+    public String toString(){
+        return this.a + "+" + this.b + "i";
+    }
+
+    public Complex add(Complex c2){
+        Complex cc = new Complex(this.a + c2.getReal(), this.b + c2.getImag());
+        return cc;
+    }
+    public Complex sub(Complex c2){
+        Complex cc = new Complex(this.a - c2.getReal(), this.b - c2.getImag());
+        return cc;
+    }
+    public Complex mult(Complex c2){
+        double a = this.a;
+        double b = this.b;
+        double c = c2.getReal();
+        double d = c2.getImag();
+        Complex cc = new Complex(a*c - b*d, a*d + b*c);
+        return cc;
+    }
+    public Complex div(Complex c2){
+        double a = this.a;
+        double b = this.b;
+        double c = c2.getReal();
+        double d = c2.getImag();
+        double e = a*c + b*d;
+        double f = b*c - a*d;
+        double g = c*c + d*d;
+        Complex cc = new Complex(e/g, f/g);
+        return cc;
+    }
+    public double getMagnitude(){
+        return Math.sqrt(this.a * this.a + this.b * this.b);
+    }
+    public boolean isLess(Complex c2){
+        if(this.getMagnitude() < c2.getMagnitude()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static void main(String[] args){
+        Complex c1 = new Complex(1.0, 2.0);
+        System.out.println("C1:    " + " Complex " + c1);
+        Complex c2 = new Complex(2.0, 1.0);
+        System.out.println("C2:    " + " Complex " + c2);
+        Complex c3 = c1.add(c2);
+        System.out.println("C1+C2: " + " Complex " + c3);
+        c3 = c1.sub(c2);
+        System.out.println("C1-C2: " + " Complex " + c3);
+        c3 = c1.mult(c2);
+        System.out.println("C1*C2: " + " Complex " + c3);
+        c3 = c1.div(c2);
+        System.out.println("C1/C2: " + " Complex " + c3);
+        boolean small = c1.isLess(c2);
+        System.out.println("C1<C2?:" + " " + small);
+
+        Random random = new Random();
+        Complex[] sortme = new Complex[10];
+        Complex placeholder = new Complex(0.0, 0.0);
+        boolean sorted = false;
+
+        System.out.println("Unsortiert:");
+        for (int i = 0; i < sortme.length; i++) {
+            sortme[i] = new Complex(random.nextDouble(10.0), random.nextDouble(10.0));
+            String printme = String.format("%4f + %4fi  Betrag: %4f", sortme[i].getReal(), sortme[i].getImag(), sortme[i].getMagnitude());
+            System.out.println(printme);
+        }
+        while (!sorted) {
+            sorted = true;
+            for (int i = 1; i < sortme.length; i++) {
+                if(sortme[i-1].getMagnitude() > sortme[i].getMagnitude()){
+                    placeholder = sortme[i-1];
+                    sortme[i-1] = sortme[i];
+                    sortme[i] = placeholder;
+                    sorted = false;
+                 }
+             }
+        }
+        System.out.println("Sortiert:");
+        for (Complex value : sortme){
+            String printme = String.format("%4f + %4fi  Betrag: %4f", value.getReal(), value.getImag(), value.getMagnitude());
+            System.out.println(printme);
+        }
+
+    }
+
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+C1:     Complex 1.0+2.0i
+C2:     Complex 2.0+1.0i
+C1+C2:  Complex 3.0+3.0i
+C1-C2:  Complex -1.0+1.0i
+C1*C2:  Complex 0.0+5.0i
+C1/C2:  Complex 0.8+0.6i
+C1<C2?: false
+Unsortiert:
+0.466847 + 3.719215i  Betrag: 3.748400
+1.438570 + 6.533850i  Betrag: 6.690342
+9.070493 + 2.228309i  Betrag: 9.340193
+9.095993 + 5.540143i  Betrag: 10.650365
+1.258751 + 2.527696i  Betrag: 2.823774
+1.996977 + 8.531035i  Betrag: 8.761648
+4.040589 + 6.360261i  Betrag: 7.535203
+6.690459 + 4.374659i  Betrag: 7.993740
+4.850474 + 7.995701i  Betrag: 9.351916
+3.977891 + 5.663560i  Betrag: 6.920948
+Sortiert:
+1.258751 + 2.527696i  Betrag: 2.823774
+0.466847 + 3.719215i  Betrag: 3.748400
+1.438570 + 6.533850i  Betrag: 6.690342
+3.977891 + 5.663560i  Betrag: 6.920948
+4.040589 + 6.360261i  Betrag: 7.535203
+6.690459 + 4.374659i  Betrag: 7.993740
+1.996977 + 8.531035i  Betrag: 8.761648
+9.070493 + 2.228309i  Betrag: 9.340193
+4.850474 + 7.995701i  Betrag: 9.351916
+9.095993 + 5.540143i  Betrag: 10.650365
+#+end_example
+
+** DONE Polynome und Horner-Schema
+#+begin_src java
+package Cache;
+public class Horner{
+    private double storage[];
+
+    public Horner(double[] inputs){
+        this.storage = inputs;
+    }
+
+    public double getValue(double px){
+        double y = 0.0;
+        for (int i = 0; i < this.storage.length; i++) {
+            y += this.storage[i] * Math.pow(px, i);
+        }
+        return y;
+    }
+
+    @Override
+    public String toString(){
+        String printme = "";
+        for (int i = 0; i < this.storage.length; i++){
+            if(storage[i] >= 0 && i < this.storage.length-1){
+                printme = "+" + storage[i] + "*x^" + i + " " + printme;
+            }
+            else{
+                printme = storage[i] + "*x^" + i + " " + printme;
+            }
+        }
+        return printme;
+    }
+
+    public static void main(String[] args){
+        double argument[] = new double[]{1.0, -2.0, 3.0, 4.5, 8.0, -10.0, 3.0, 4.0, 2.0, -3.0, 0.5};
+        Horner testarray = new Horner(argument);
+        System.out.println("Polynomial f: " + testarray);
+        System.out.println("f(1.5) = " + testarray.getValue(1.5));
+
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Polynomial f: 0.5*x^10 -3.0*x^9 +2.0*x^8 +4.0*x^7 +3.0*x^6 -10.0*x^5 +8.0*x^4 +4.5*x^3 +3.0*x^2 -2.0*x^1 +1.0*x^0
+: f(1.5) = 51.77587890625
+
+** KILL Nimmspiel
+
+#+begin_src java
+package Cache;
+import java.util.Random;
+public class Nimmspiel{
+    private String SpielerA;
+    private String SpielerB;
+    private int Kugeln1;
+    private int Kugeln2;
+    private boolean NextA;
+
+    public void Nimmspiel(){
+        Random random = new Random();
+        this.SpielerA = "Alf";
+        this.SpielerB = "Ben";
+        this.Kugeln1 = random.nextInt(100) + 1;
+        this.Kugeln2 = random.nextInt(100) + 1;
+        this.NextA = false;
+    }
+    @Override
+    public String toString(){
+        String status = "";
+        status += "Spieler: " + this.SpielerA + " und " + this.SpielerB;
+        status += ", Haufen1: " + this.Kugeln1;
+        status += " Kugel(n), Haufen 2: " + this.Kugeln2 + " Kugel(n)";
+    }
+    public void Spielzug(int haufen, int anzahl){
+        if(this.CheckWin()){
+            String winner = (this.NextA) ? this.SpielerA : this.SpielerB;
+            System.out.println("Gewonnen hat Spieler " + winner);
+        }
+        if(this.NextA){
+        }
+        else{
+        }
+    }
+    public boolean CheckWin(){
+        boolean somewin = false;
+        if(this.Kugeln1 <= 0){
+            somewin = true;
+        }
+        else if(this.Kugeln2 <= 0){
+            somewin = true;
+        }
+        return somewin;
+    }
+    public static void main(String[] args){
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** KILL Lotto
+** KILL MasterMind
+Unnötig algorithmisch schwer
+
+* DONE [[file:Folien/10_Strings_Wrapper.pdf][10 Strings]]
+<2022-02-21 Mon>
+** DONE Quersumme
+#+begin_src java
+package Cache;
+public class CrossTotal{
+    public static void main(String[] args){
+        String example = "369246";
+        int summe = 0;
+        for(char car : example.toCharArray()){
+            summe += (car - '0');
+        }
+        System.out.println("Die Quersumme von " + example + " ist " + summe);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Die Quersumme von 369246 ist 30
+
+** DONE Palindrom
+#+begin_src java
+package Cache;
+public class Palindrome{
+    public static void main(String[] args){
+        String name1 = "Anna";
+        int length = name1.length();
+        StringBuffer reverse = new StringBuffer(length);
+        for(int i = 0; i < length ; i++){
+            reverse.insert(0, name1.toCharArray()[i]);
+        }
+        String name2 = reverse.toString();
+        if(name1.equalsIgnoreCase(name2)){
+            System.out.println(name1 + " ist ein Palindrom.");
+        }
+        else{
+            System.out.println(name1 + " ist kein Palindrom.");
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Anna ist ein Palindrom.
+
+** DONE Römische Zahlen
+#+begin_src java
+package Cache;
+public class RomanNumber{
+    public static void main(String[] args){
+        String roman = "MCMLXXXIV";
+        char before = 'A';
+        int length = roman.length();
+        int summe = 0;
+        for(int i = 0; i < length ; i++){
+             char digit = roman.toCharArray()[i];
+             switch(digit){
+                case 'M':
+                    summe += (before == 'C') ? 800 : 1000;
+                    before = 'A';
+                    break;
+                case 'D':
+                    summe += (before == 'C') ? 300 : 500;
+                    before = 'A';
+                    break;
+                case 'C':
+                    summe += (before == 'X') ? 80 : 100;
+                    before = 'C';
+                    break;
+                case 'L':
+                    summe += (before == 'X') ? 30 : 50;
+                    before = 'A';
+                    break;
+                case 'X':
+                    summe += (before == 'I') ? 8 : 10;
+                    before = 'X';
+                    break;
+                case 'V':
+                    summe += (before == 'I') ? 3 : 5;
+                    before = 'A';
+                    break;
+                case 'I':
+                    summe += 1;
+                    before = 'I';
+                    break;
+            }
+            //debug: System.out.println(digit + " " + summe);
+        }
+        System.out.println(summe);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 1984
+
+* DONE [[file:Folien/11_Methoden_Special.pdf][11 Methoden-Spezial (Rekursion)]]
+<2022-02-28 Mon>
+** DONE Potenzen
+
+#+begin_src java
+package Cache;
+public class Exponentiation{
+    private int n;
+    private double x;
+
+    public static double xPowerN(double x, int n){
+        if(n == 0){
+            return 1;
+        }
+        else{
+            return x*xPowerN(x, n-1);
+        }
+    }
+    public static void main(String[] args){
+        System.out.println(xPowerN(2.0,3));
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 8.0
+
+** DONE Fibonacci-Zahlen rekursiv
+
+#+begin_src java
+package Cache;
+public class Fibonacci{
+    public static int genFib(int i){
+        int f1 = 1;
+        int f2 = 1;
+        return genFib(i, f1, f2);
+    }
+    public static int genFib(int i, int f1, int f2){
+        if(i == 2){
+            return 1;
+        }
+        else{
+            return f1 + genFib(i-1, f2, f1+f2);
+        }
+    }
+    public static void main(String[] args){
+        System.out.println(genFib(6));
+    }
+}
+#+end_src
+
+#+RESULTS:
+: 8
+
+** KILL Quicksort*
+Unnötig algorithmisch schwer
+
+* DONE [[file:Folien/13_Vererbung.pdf][13 Vererbung]]
+<2022-03-07 Mon>
+** DONE Fahrzeuge, Wettrennen
+
+#+begin_src java
+package Cache;
+public class Race{
+    public static void main(String[] args){
+        Vehicle[] vehicles = new Vehicle[4];
+        vehicles[0] = new Bicycle(20.0);
+        vehicles[1] = new Car(150.0);
+        vehicles[2] = new RacingCar(200.0);
+        vehicles[3] = new Ambulance(80.0, true);
+        vehicles[0].drive(240.0);
+        for (int i = 0; i < vehicles.length; i++) {
+            vehicles[i].drive(60);
+        }
+        for (int i = 0; i < vehicles.length; i++) {
+            System.out.println(vehicles[i].toString());
+        }
+    }
+}
+class Vehicle{
+    protected int wheels;
+    protected int vmax;
+    protected double km;
+    protected double speed;
+
+    @Override
+    public String toString(){
+        String buildme = this.getClass().getSimpleName();
+        buildme += " at position " + this.km;
+        buildme += " km with " + this.wheels;
+        buildme += " wheels at speed " + this.speed;
+        buildme += " km/h of max. " + this.vmax;
+        buildme += " km/h.";
+        return buildme;
+    }
+    public void setSpeed(double speed){
+            this.speed = (speed <= this.vmax) ? speed : vmax;
+    }
+    public void drive(double minutes){
+        this.km += this.speed * minutes / 60;
+    }
+}
+class Bicycle extends Vehicle{
+    public Bicycle(double speed){
+        this.wheels = 2;
+        this.vmax = 20;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }
+}
+class Car extends Vehicle{
+    public Car(){}
+    public Car(double speed){
+        this.wheels = 4;
+        this.vmax = 140;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }
+}
+class RacingCar extends Car{
+    public RacingCar(double speed){
+        this.vmax = 220;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }}
+class Ambulance extends Car{
+    private boolean light;
+
+    public Ambulance(double speed, boolean light){
+        this.light = light;
+        this.wheels = 4;
+        this.vmax = 80;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }
+
+    public void toggleLight(){
+        this.light = !this.light;
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Bicycle at position 100.0 km with 2 wheels at speed 20.0 km/h of max. 20 km/h.
+: Car at position 140.0 km with 4 wheels at speed 140.0 km/h of max. 140 km/h.
+: RacingCar at position 200.0 km with 0 wheels at speed 200.0 km/h of max. 220 km/h.
+: Ambulance at position 80.0 km with 4 wheels at speed 80.0 km/h of max. 80 km/h.
+
+** KILL Periodensystem
+
+#+begin_src java
+public class PeriodicTable{
+    private Element[] sugma;
+
+    public void addElement(Element e){
+        //this.sugma = [e];
+    }
+    public boolean hasElement(int o){
+
+    }
+    public Element getElement(int o){
+    }
+    public Element[] getMetals(){
+    }
+}
+
+class Element{
+    protected String name;
+    protected String symbol;
+    protected int ordinal;
+    protected char shell;
+    protected int phase;
+    protected boolean hn;
+
+    public void setName(String x){
+        this.name = x;
+    }
+    public String getName(){
+        return(this.name);
+    }
+    public void setSymbol(String x){
+        this.symbol = x;
+    }
+    public String getSymbol(){
+        return(this.symbol);
+    }
+    public void setOrdinal(int x){
+        this.ordinal = x;
+    }
+    public int getOrdinal(){
+        return(this.ordinal);
+    }
+    public void setShell(char x){
+        this.shell = x;
+    }
+    public char getShell(){
+        return(this.shell);
+    }
+    public void setPhase(int x){
+        this.phase = x;
+    }
+    public int getPhase(){
+        return(this.phase);
+    }
+    public void setHn(boolean x){
+        this.hn = x;
+    }
+    public boolean getHn(){
+        return(this.hn);
+    }
+
+    @Override
+    public String toString(){
+        String meh = "";
+        meh += this.name + " (" + this.symbol + "," + this.ordinal + ") Schale: " + this.shell + ", ";
+        meh += (this.phase == 1) ? "fest" : "";
+        meh += (this.phase == 2) ? "flüssig" : "";
+        meh += (this.phase == 3) ? "gas" : "";
+        meh += ", Gruppe: ";
+        meh += (this.hn) ? "Hauptgruppe" : "Nebengruppe";
+        return meh;
+    }
+
+    public Element(){}
+    public Element(String name, String symbol, int ordinal, char shell, int phase, boolean hn){
+        this.name = name;
+        this.symbol = symbol;
+        this.ordinal = ordinal;
+        this.shell = shell;
+        this.phase = phase;
+        this.hn = hn;
+    }
+
+    public boolean equals(Element o){
+        return (o.getOrdinal() == this.ordinal);
+    }
+}
+
+class Metal extends Element{
+    private boolean metalloid;
+    private double conductivity;
+
+    public void setMetalloid(boolean Metalloid){
+        this.metalloid = Metalloid;
+    }
+    public boolean getMetalloid(){
+        return(this.metalloid);
+    }
+    public void setConductivity(double Conductivity){
+        this.conductivity = Conductivity;
+    }
+    public double getConductivity(){
+        return(this.conductivity);
+    }
+
+    public Metal(){}
+    public Metal(String name, String symbol, int ordinal, char shell, int phase, boolean hn, boolean metalloid, double conductivity){
+        this.name = name;
+        this.symbol = symbol;
+        this.ordinal = ordinal;
+        this.shell = shell;
+        this.phase = phase;
+        this.hn = hn;
+        this.metalloid = metalloid;
+        this.conductivity = conductivity;
+    }
+
+    @Override
+    public String toString(){
+        String meh = "";
+        meh += this.name + " (" + this.symbol + "," + this.ordinal + ") Schale: " + this.shell + ", ";
+        meh += (this.phase == 1) ? "fest" : "";
+        meh += (this.phase == 2) ? "flüssig" : "";
+        meh += (this.phase == 3) ? "gas" : "";
+        meh += ", Gruppe: ";
+        meh += (this.hn) ? "Hauptgruppe " : "Nebengruppe ";
+        meh += (this.metalloid) ? "Halbleiter, " : "";
+        meh += "σ: " + this.conductivity;
+        return meh;
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+* DONE [[file:Folien/15_InputOutput.pdf][15 IO]]
+<2022-03-14 Mon>
+** DONE Arbeiten mit Dateien
+#+begin_src java
+package Cache;
+import java.io.File;
+import java.io.IOException;
+public class FileExperiments{
+    public static void main(String[] args){
+        File tmp1 = new File("/home/port19/doc/Programmieren/Cache/mydir/tmp1");
+        File tmp2 = new File("/home/port19/doc/Programmieren/Cache/mydir/tmp2");
+        File tmp3 = new File("/home/port19/doc/Programmieren/Cache/mydir/tmp3");
+        File mydir = new File("/home/port19/doc/Programmieren/Cache/mydir");
+        boolean result;
+        try{
+            result = mydir.mkdir();
+            result = result && tmp1.createNewFile();
+            result = result && tmp2.createNewFile();
+            result = result && tmp3.createNewFile();
+            if(result){
+                System.out.println(mydir.getAbsolutePath());
+                for (String var : mydir.list()){
+                    System.out.println(var);
+                }
+                System.out.println("created files");
+            }
+            else{
+                System.out.println("failed creating files");
+            }
+            result = tmp1.delete();
+            result = result && tmp2.delete();
+            result = result && tmp3.delete();
+            result = result && mydir.delete();
+            if(result){
+                System.out.println("deleted files");
+            }
+            else{
+                System.out.println("failed deleting files");
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: /home/port19/doc/Programmieren/Cache/mydir
+: tmp1
+: tmp3
+: tmp2
+: created files
+: deleted files
+
+** DONE Quersummen speichern
+#+begin_src java
+package Cache;
+import java.io.FileWriter;
+import java.io.IOException;
+public class CrossTotalFile{
+    public static void main(String[] args){
+        String example = "369246";
+        int summe = 0;
+        for(char car : example.toCharArray()){
+            summe += (car - '0');
+        }
+        String storable = "Die Quersumme von " + example + " ist " + summe + "\n";
+
+        try{
+            FileWriter storage = new FileWriter("/home/port19/doc/Programmieren/Cache/Quersumme.txt", true);
+            storage.write(storable);
+            storage.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** DONE Palindrome speichern
+#+begin_src java
+package Cache;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+public class PalindromeFile{
+    public static void main(String[] args){
+        String name1 = "Anna";
+        int length = name1.length();
+        StringBuffer reverse = new StringBuffer(length);
+        for(int i = 0; i < length ; i++){
+            reverse.insert(0, name1.toCharArray()[i]);
+        }
+        String name2 = reverse.toString();
+        String storable;
+        if(name1.equalsIgnoreCase(name2)){
+            storable = name1 + " ist ein Palindrom.\n";
+        }
+        else{
+            storable = name1 + " ist kein Palindrom.\n";
+        }
+        try{
+            FileWriter storage = new FileWriter("/home/port19/doc/Programmieren/Cache/Palindrome.txt", true);
+            FileReader janitor = new FileReader("/home/port19/doc/Programmieren/Cache/Palindrome.txt");
+            storage.write(storable);
+            storage.close();
+            int c;
+            String packed = "";
+            while ((c = janitor.read()) != -1){
+                packed = packed + (char) c;
+            }
+            janitor.close();
+            System.out.println(packed);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Anna ist ein Palindrom.
+: Anna ist ein Palindrom.
+:
+
+** DONE Teil eienr Datei
+#+begin_src java
+package Cache;
+import java.io.FileReader;
+import java.io.IOException;
+public class TextfileLines{
+    public static void main(String[] args){
+        try{
+            FileReader sire = new FileReader("/home/port19/doc/Programmieren/Cache/beispiel.txt");
+            int c;
+            int line = 1;
+            char linebreaker;
+            String packed = "";
+            String oneline = "Zeile 2-5: ";
+            while ((c = sire.read()) != -1){
+                linebreaker = (char) c;
+                if(c == 10){
+                    line++;
+                }
+                if(line >= 2 && line <= 5){
+                    packed = packed + linebreaker;
+                    if(c != 10){
+                        oneline = oneline + linebreaker;
+                    }
+                }
+            }
+            sire.close();
+            System.out.println(packed);
+            System.out.println(oneline);
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+#+end_src
+
+#+RESULTS:
+:
+: ipsum
+: dolor
+: 4
+: 5
+: Zeile 2-5: ipsumdolor45
+
+** KILL Zugriff auf eine Textdatei
+* DONE [[file:Folien/20_Swing.pdf][20 Swing]]
+<2022-05-11 Wed>
+** DONE Swing-Grundkomponenten
+#+begin_src java
+package Cache;
+import javax.swing.*;
+public class ComponentFrame {
+    public ComponentFrame() {
+        JFrame frame = new JFrame();
+        JPanel jp = new JPanel();
+        jp.add(new JLabel("JLabel"));
+        jp.add(new JTextField("JTextField"));
+        jp.add(new JPasswordField("Benis"));
+        jp.add(new JButton("JButton"));
+        jp.add(new JToggleButton("JToggleButton"));
+        jp.add(new JCheckBox("JCheckBox"));
+        JComboBox jcb = new JComboBox();
+        jcb.addItem("Item1");
+        jcb.addItem("Item2");
+        jcb.addItem("Item3");
+        jcb.addItem("Item4");
+        jp.add(jcb);
+//        ButtonGroup bg = new ButtonGroup();
+//        bg.add(new JButton("Radio-Button-1"));
+//        bg.add(new JButton("Radio-Button-2"));
+//        bg.add(new JButton("Radio-Button-3"));
+//        jp.add(bg);
+        frame.add(jp);
+        frame.setTitle("Frame with multiple buttons");
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args) {
+        new ComponentFrame();
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** DONE Frame mit Text
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.io.FileReader;
+import java.io.IOException;
+public class TextFrame{
+    JFrame frame = new JFrame();
+    private int width;
+    private int height;
+    private String filename;
+    private FileReader fileobj;
+    private String contents;
+
+    public TextFrame(int width, int height, String filename) {
+        this.width = width;
+        this.height = height;
+        this.filename = filename;
+        frame.add(new JLabel("JLabel"));
+        frame.setTitle(filename);
+        frame.setSize(width, height);
+        try{
+            this.fileobj = new FileReader("/home/port19/doc/Programmieren/Cache/" + filename);
+            this.contents = "";
+            int c = 0;
+            while ((c = fileobj.read()) != -1){
+                this.contents = this.contents + (char) c;
+            }
+            fileobj.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        frame.add(new JTextArea(this.contents));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args) {
+        new TextFrame(300, 200, "Palindrome.txt");
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** DONE Datei auswählen und zeilenweise darstellen
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.io.FileReader;
+import java.io.IOException;
+public class TextfileViewer {
+    JFrame frame = new JFrame();
+    private String path;
+    private FileReader fileobj;
+    private String contents;
+
+    public TextfileViewer(String path){
+        this.path = path;
+        frame.setTitle(this.path);
+        frame.setSize(300, 200);
+        try{
+            this.fileobj = new FileReader(this.path);
+            this.contents = "";
+            int c = 0;
+            while ((c = fileobj.read()) != -1){
+                this.contents = this.contents + (char) c;
+            }
+            fileobj.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        JTextArea writeonme = new JTextArea(this.contents);
+        JScrollPane scrollable = new JScrollPane(writeonme);
+        frame.add(scrollable);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args){
+        JFileChooser fc = new JFileChooser();
+        int state = fc.showOpenDialog(null);
+        String path = "";
+        if (state == JFileChooser.APPROVE_OPTION){
+            path = fc.getSelectedFile().getAbsolutePath();
+        } else {
+            System.out.println("No selection");
+        }
+        new TextfileViewer(path);
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** DONE Währungsumrechner
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.awt.*;
+public class CurrencyCalculator{
+    JFrame frame = new JFrame();
+    private int eur;
+    private int usd;
+
+    public CurrencyCalculator(){
+        frame.setLayout(new BorderLayout(3,3));
+        frame.add(new JTextField("Please Enter amount to convert!"), BorderLayout.NORTH);
+        frame.add(new JButton("EUR > USD"), BorderLayout.WEST);
+        frame.add(new JButton("USB > EUR"));
+        frame.add(new JButton("Cancel"), BorderLayout.EAST);
+        frame.setTitle("Currency converter");
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args){
+        new CurrencyCalculator();
+    }
+}
+#+end_src
+
+#+RESULTS:
+** DONE Editor
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.awt.*;
+public class EditorSimple{
+    JFrame frame = new JFrame();
+    JMenuBar hehe = new JMenuBar();
+    JMenu datei = new JMenu("Datei");
+    JMenu bearbeiten = new JMenu("Bearbeiten");
+    JMenu senden = new JMenu("Senden an");
+
+    public EditorSimple(){
+        senden.add("E-Mail-Empfänger");
+        senden.add("E-Mail-Empfänger (zur Überarbeitung)");
+        senden.add("E-Mail-Empfänger (als Ablage)");
+        senden.add(new JSeparator());
+        senden.add("Verteilerempfänger...");
+        senden.add("Onlinebesprechungsteilnehmer");
+        senden.add("Exchange-Ordner...");
+        senden.add("Fax-Empfänger");
+        senden.add(new JSeparator());
+        senden.add("Microsoft PowerPoint");
+        datei.add("Neu");
+        datei.add("öffnen");
+        datei.add(new JSeparator());
+        datei.add("Schließen");
+        datei.add(new JSeparator());
+        datei.add("Speichern");
+        datei.add("Speichern unter...");
+        datei.add("Als Website speichern");
+        datei.add("Suchen");
+        datei.add(new JSeparator());
+        datei.add("Versionen");
+        datei.add(new JSeparator());
+        datei.add("Webseitenvorschau");
+        datei.add(new JSeparator());
+        datei.add(senden);
+        datei.add("Eigenschaften");
+        datei.add(new JSeparator());
+        datei.add("bilanz_2017.doc");
+        datei.add("bericht_2018_01.doc");
+        datei.add("ziele.doc");
+        datei.add(new JSeparator());
+        datei.add("Beenden");
+        bearbeiten.add("Rückgängig");
+        bearbeiten.add("Wiederholen");
+        bearbeiten.add(new JSeparator());
+        bearbeiten.add("Ausschneiden");
+        bearbeiten.add("Kopieren");
+        bearbeiten.add("Office-Zwischenablage");
+        bearbeiten.add("Einfügen");
+        bearbeiten.add("Inhalte einfügen");
+        bearbeiten.add("Als Hyperlink einfügen");
+        bearbeiten.add(new JSeparator());
+        bearbeiten.add("Löschen");
+        bearbeiten.add("Alles markieren");
+        bearbeiten.add(new JSeparator());
+        bearbeiten.add("Suchen...");
+        bearbeiten.add("Ersetzen..");
+        bearbeiten.add("Gehe zu...");
+        bearbeiten.add(new JSeparator());
+        bearbeiten.add("Verknüpfungen...");
+        bearbeiten.add("Objekt");
+        hehe.add(datei);
+        hehe.add(bearbeiten);
+        frame.add(hehe, BorderLayout.NORTH);
+        frame.add(new JTextArea("Vim is superior"));
+        frame.setTitle("Editor");
+        frame.setSize(300, 150); //laughs awesomely
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args){
+        new EditorSimple();
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+* DONE [[file:Folien/21_Abstrakte_Klassen_Interfaces.pdf][21 Abstrakte Klassen]]
+<2022-05-18 Wed>
+** DONE Wettrennen
+#+begin_src java
+package Cache;
+public class Race{
+    public static void main(String[] args){
+        Vehicle[] vehicles = new Vehicle[4];
+        vehicles[0] = new Bicycle(20.0);
+        vehicles[1] = new Car(150.0);
+        vehicles[2] = new RacingCar(200.0);
+        vehicles[3] = new Ambulance(80.0, true);
+        vehicles[0].drive(240.0);
+        for (int i = 0; i < vehicles.length; i++) {
+            vehicles[i].drive(60);
+        }
+        for (int i = 0; i < vehicles.length; i++) {
+            System.out.println(vehicles[i].toString());
+        }
+    }
+}
+abstract class Vehicle{
+    protected int wheels;
+    protected int vmax;
+    protected double km;
+    protected double speed;
+
+    @Override
+    public String toString(){
+        String buildme = this.getClass().getSimpleName();
+        buildme += " at position " + this.km;
+        buildme += " km with " + this.wheels;
+        buildme += " wheels at speed " + this.speed;
+        buildme += " km/h of max. " + this.vmax;
+        buildme += " km/h.";
+        return buildme;
+    }
+    abstract public void info();
+
+    public void setSpeed(double speed){
+            this.speed = (speed <= this.vmax) ? speed : vmax;
+    }
+    public void drive(double minutes){
+        this.km += this.speed * minutes / 60;
+    }
+}
+class Bicycle extends Vehicle{
+    public Bicycle(double speed){
+        this.wheels = 2;
+        this.vmax = 20;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }
+    public void info(){
+        System.out.println(this);
+    }
+}
+class Car extends Vehicle{
+    public Car(){}
+    public Car(double speed){
+        this.wheels = 4;
+        this.vmax = 140;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }
+    public void info(){
+        System.out.println(this);
+    }
+}
+class RacingCar extends Car{
+    public RacingCar(double speed){
+        this.vmax = 220;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }}
+class Ambulance extends Car{
+    private boolean light;
+
+    public Ambulance(double speed, boolean light){
+        this.light = light;
+        this.wheels = 4;
+        this.vmax = 80;
+        this.speed = (speed <= this.vmax) ? speed : this.vmax;
+    }
+
+    public void toggleLight(){
+        this.light = !this.light;
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Bicycle at position 100.0 km with 2 wheels at speed 20.0 km/h of max. 20 km/h.
+: Car at position 140.0 km with 4 wheels at speed 140.0 km/h of max. 140 km/h.
+: RacingCar at position 200.0 km with 0 wheels at speed 200.0 km/h of max. 220 km/h.
+: Ambulance at position 80.0 km with 4 wheels at speed 80.0 km/h of max. 80 km/h.
+* DONE [0/0] [[file:Folien/23_Events.pdf][23 Events]]
+<2022-05-25 Wed>
+** DONE Währungsumrechner
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*;
+public class CurrencyCalculator{
+    JFrame frame = new JFrame();
+
+    public CurrencyCalculator(){
+        frame.setLayout(new BorderLayout(3,3));
+        JTextField ligma = new JTextField("Please enter amount to convert!");
+        frame.add(ligma, BorderLayout.NORTH);
+        JButton tousd = new JButton("EUR > USD");
+        tousd.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    double x = Double.parseDouble(ligma.getText());
+                    double y = x * 1.09;
+                    String z = Double.toString(y);
+                    ligma.setText(z);
+                }
+            });
+        frame.add(tousd, BorderLayout.WEST);
+        JButton toeur = new JButton("USD > EUR");
+        toeur.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    double x = Double.parseDouble(ligma.getText());
+                    double y = x / 1.09;
+                    String z = Double.toString(y);
+                    ligma.setText(z);
+                }
+            });
+        frame.add(toeur);
+        JButton cancel = new JButton("cancel");
+        cancel.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.exit(0);
+                }
+            });
+        frame.add(cancel, BorderLayout.EAST);
+        frame.setTitle("Currency converter");
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args){
+        new CurrencyCalculator();
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** DONE Body-Mass-Index
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*;
+public class BMICalculator{
+    JFrame frame = new JFrame();
+
+    public int calcBMI(int weight, double m){
+        int bmi = (int)(weight / (m * m));
+        return bmi;
+    }
+
+    public String classifyBMI(int bmi, boolean male){
+        int processing = bmi;
+        if(!male){
+            processing ++;
+        }
+        if(processing < 20){
+            return "Short weight";
+        }
+        else if (processing <= 25){
+            return "Normal weight";
+        }
+        else if (processing <= 30){
+            return "Overweight";
+        }
+        else if (processing <= 40){
+            return "Adiposity";
+        }
+        else{
+            return "Massive Adiposity";
+        }
+    }
+
+    public BMICalculator(){
+        //Define Containers
+        frame.setLayout(new BorderLayout());
+        JPanel jnorth = new JPanel(new BorderLayout());
+        JPanel jnorth1 = new JPanel(new BorderLayout());
+        JPanel jnorth2 = new JPanel(new BorderLayout());
+        JPanel jnorth3 = new JPanel(new BorderLayout());
+        JPanel jsouth = new JPanel(new BorderLayout());
+        JPanel jsouth1 = new JPanel(new BorderLayout());
+        JPanel jsouth2 = new JPanel(new BorderLayout());
+        JPanel jsouth3 = new JPanel(new BorderLayout());
+        //Set Containers
+        frame.add(jnorth, BorderLayout.NORTH);
+        jnorth.add(jnorth1, BorderLayout.NORTH);
+        jnorth.add(jnorth2, BorderLayout.CENTER);
+        jnorth.add(jnorth3, BorderLayout.SOUTH);
+        frame.add(jsouth, BorderLayout.SOUTH);
+        jsouth.add(jsouth1, BorderLayout.NORTH);
+        jsouth.add(jsouth2, BorderLayout.CENTER);
+        jsouth.add(jsouth3, BorderLayout.SOUTH);
+        //Define Components
+        JLabel jweight = new JLabel("Weight [kg]: ");
+        JLabel jheight = new JLabel("Body height [m]: ");
+        JTextField jjweight = new JTextField();
+        JTextField jjheight = new JTextField();
+        JRadioButton jmale = new JRadioButton("male", true);
+        JLabel jfemale = new JLabel("no button for the females");
+        JButton calculate = new JButton("Calculate");
+        JLabel jbmi = new JLabel("BMI: ");
+        JTextArea jjbmi = new JTextArea();
+        JTextArea jstatus = new JTextArea();
+        calculate.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    String weightinput = jjweight.getText();
+                    int weight = Integer.parseInt(weightinput);
+                    double height = Double.parseDouble(jjheight.getText());
+                    int bmi = calcBMI(weight, height);
+                    String setbmi = Integer.toString(bmi);
+                    jjbmi.setText(setbmi);
+                    jstatus.setText(classifyBMI(bmi, jmale.isSelected()));
+                }
+            });
+        //Set Components
+        jnorth1.add(jweight, BorderLayout.NORTH);
+        jnorth1.add(jjweight, BorderLayout.SOUTH);
+        jnorth2.add(jheight, BorderLayout.NORTH);
+        jnorth2.add(jjheight, BorderLayout.SOUTH);
+        jnorth3.add(jmale, BorderLayout.WEST);
+        jnorth3.add(jfemale, BorderLayout.EAST);
+        jsouth1.add(calculate, BorderLayout.CENTER);
+        jsouth2.add(jbmi, BorderLayout.WEST);
+        jsouth2.add(jjbmi, BorderLayout.EAST);
+        jsouth3.add(jstatus, BorderLayout.CENTER);
+        //Finalize
+        frame.pack();
+        frame.setTitle("BMI Calculator");
+        frame.setSize(1000, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    public static void main(String[] args){
+        new BMICalculator();
+    }
+}
+#+end_src
+
+#+RESULTS:
+
+** NO Binäre Zahlen
+#+begin_src java
+package Cache;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*;
+
+public class BinaryNumber{
+    JFrame frame = new JFrame();
+
+    public BinaryNumber(){
+        //Define Containers
+        JPanel jnorth = new JPanel();
+        JPanel jmid = new JPanel();
+        JPanel jsouth = new JPanel(new BorderLayout());
+        //Set Containers
+        frame.add(jnorth, BorderLayout.NORTH);
+        frame.add(jmid, BorderLayout.CENTER);
+        frame.add(jsouth, BorderLayout.SOUTH);
+        //Definte Components
+        JToggleButton[] toprow = new JToggleButton[8];
+        for(JToggleButton var : toprow){
+            var = new JToggleButton();
+        }
+        JLabel[] midrow = new JLabel[8];
+        for(int i = 0; i < midrow.length; i++){
+            midrow[i] = new JLabel("2^" + i);
+        }
+        JLabel botrow = new JLabel("reeeeee");
+        //Set Components
+        for(JToggleButton var : toprow){
+            jnorth.add(var);
+        }
+        for(JLabel var : midrow){
+            jmid.add(var);
+        }
+        jsouth.add(botrow);
+        //Finalize
+        frame.pack();
+        frame.setTitle("Binary Numbers");
+        frame.setSize(1000, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    //public static void main(String[] args){
+        //new BinaryNumber();
+    //}
+}
+#+end_src
+
+#+RESULTS:
+: success
+
+** NO Zahlenraten
+** NO Editor
+** NO Hütchenspiel
